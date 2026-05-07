@@ -1,12 +1,18 @@
-import { resourceFromAttributes } from "@opentelemetry/resources";
-import {
-  ATTR_SERVICE_NAME,
-  ATTR_SERVICE_VERSION,
-} from "@opentelemetry/semantic-conventions";
+import "./instrumentation";
+import http from "node:http";
 
-const resources = resourceFromAttributes({
-  [ATTR_SERVICE_NAME]: "yourServiceName",
-  [ATTR_SERVICE_VERSION]: "1.0",
+console.log("OTEL_LOG_LEVEL", process.env.OTEL_LOG_LEVEL);
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" });
+  res.end("Hello from Node.js http module");
 });
 
-console.dir(resources);
+// register a path request
+server.on("request", (req, res) => {
+  console.log("Request received", req.url);
+});
+
+server.listen(3000, () => {
+  console.log("Server running at http://localhost:3000");
+});

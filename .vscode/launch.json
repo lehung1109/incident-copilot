@@ -6,6 +6,12 @@
       "type": "node-terminal",
       "request": "launch",
       "command": "bun run dev --inspect"
+    },
+    {
+      "name": "OTEL: debug server",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npx tsx --env-file=.env ./packages/otel/src/index.ts"
     }
   ]
 }
